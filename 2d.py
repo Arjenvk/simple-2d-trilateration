@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from matplotlib.patches import Ellipse
 import matplotlib.transforms as transforms
+import seaborn as sns
 
 def calculate_distance_2d(x1,y1,x2,y2):
     dist = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
@@ -69,13 +70,11 @@ def confidence_ellipse(x, y, ax, n_std=3.0, facecolor='none', **kwargs):
 # Define UAS position, as a single position or array with sequenting positions
 begin_positie = [-20, 0]
 stappen = range(-20, 0)
-print(stappen)
 
 posities = []
 for i in stappen:
     posities.append([i,0])
 
-print(posities)
 
 # define locations of Beacons, 3rd column for distances
 Beacon_1 = [-5, -5, 0]
@@ -147,14 +146,17 @@ plt.ylabel("")
 plt.show()
 
 # plot errors
-plt.plot(errors, 'ro')
+plt.plot(errors, 'r')
+sns.regplot(x=np.linspace(0,19,20),y=errors)
 plt.xlim(-1, len(posities) )
-plt.ylim( 0, 0.1)
+plt.ylim( 0, 2)
 plt.xlabel("Sample")
 plt.xticks(range(0,21))
 plt.ylabel("Absolute error in position [m]")
 plt.show()
 
+# sns.regplot(x=np.linspace(0,19,20),y=errors)
+# plt.xticks(range(0,21))
 
 # statistical analysis or errors
 mean = np.mean(errors)
@@ -170,7 +172,6 @@ print(trans)
 
 x = trans[0]
 y = trans[1]
-
 
 
 fig, ax_nstd = plt.subplots(figsize=(6, 6))
